@@ -89,6 +89,11 @@ namespace _4RTools.Forms
             this.ahkCompatibility = new System.Windows.Forms.RadioButton();
             this.ahkSynchronous = new System.Windows.Forms.RadioButton();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.groupImpactSwitch = new System.Windows.Forms.GroupBox();
+            this.txtImpactKey1 = new System.Windows.Forms.TextBox();
+            this.txtImpactKey2 = new System.Windows.Forms.TextBox();
+            this.txtImpactKey3 = new System.Windows.Forms.TextBox();
+            this.numImpactDelay = new System.Windows.Forms.NumericUpDown();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.cbDeactivated = new System.Windows.Forms.CheckBox();
             this.cbWithNoClick = new System.Windows.Forms.CheckBox();
@@ -110,6 +115,8 @@ namespace _4RTools.Forms
             this.groupAhkConfig.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbUpAndDownArrow)).BeginInit();
+            this.groupImpactSwitch.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numImpactDelay)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -660,6 +667,12 @@ namespace _4RTools.Forms
             this.groupBox2.TabIndex = 32;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Spammer Delay";
+
+            this.groupBox2.AutoSize = true;
+            this.groupBox2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             // 
             // label1
             // 
@@ -683,10 +696,11 @@ namespace _4RTools.Forms
             this.groupAhkConfig.Controls.Add(this.ahkCompatibility);
             this.groupAhkConfig.Controls.Add(this.ahkSynchronous);
             this.groupAhkConfig.Controls.Add(this.groupBox4);
+            this.groupAhkConfig.Controls.Add(this.groupImpactSwitch);
             this.groupAhkConfig.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(155)))), ((int)(((byte)(164)))));
             this.groupAhkConfig.Location = new System.Drawing.Point(14, 190);
             this.groupAhkConfig.Name = "groupAhkConfig";
-            this.groupAhkConfig.Size = new System.Drawing.Size(533, 74);
+            this.groupAhkConfig.Size = new System.Drawing.Size(533, 200);
             this.groupAhkConfig.TabIndex = 33;
             this.groupAhkConfig.TabStop = false;
             this.groupAhkConfig.Text = "AHK Configuration";
@@ -783,6 +797,61 @@ namespace _4RTools.Forms
             this.groupBox4.TabIndex = 33;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Key Config";
+            // 
+            // groupImpactSwitch
+            // 
+            this.groupImpactSwitch.Controls.Add(this.txtImpactKey1);
+            this.groupImpactSwitch.Controls.Add(this.txtImpactKey2);
+            this.groupImpactSwitch.Controls.Add(this.txtImpactKey3);
+            this.groupImpactSwitch.Controls.Add(this.numImpactDelay);
+            this.groupImpactSwitch.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(155)))), ((int)(((byte)(164)))));
+            this.groupImpactSwitch.Location = new System.Drawing.Point(10, 100);
+            this.groupImpactSwitch.Name = "groupImpactSwitch";
+            this.groupImpactSwitch.Size = new System.Drawing.Size(250, 60);
+            this.groupImpactSwitch.TabIndex = 40;
+            this.groupImpactSwitch.TabStop = false;
+            this.groupImpactSwitch.Text = "Impacto Explosivo";
+            // 
+            // txtImpactKey1
+            // 
+            this.txtImpactKey1.Location = new System.Drawing.Point(10, 25);
+            this.txtImpactKey1.Name = "txtImpactKey1";
+            this.txtImpactKey1.Size = new System.Drawing.Size(50, 20);
+            this.txtImpactKey1.TabIndex = 0;
+            this.txtImpactKey1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtImpactKey1_KeyDown);
+            // 
+            // txtImpactKey2
+            // 
+            this.txtImpactKey2.Location = new System.Drawing.Point(70, 25);
+            this.txtImpactKey2.Name = "txtImpactKey2";
+            this.txtImpactKey2.Size = new System.Drawing.Size(50, 20);
+            this.txtImpactKey2.TabIndex = 1;
+            this.txtImpactKey2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtImpactKey2_KeyDown);
+            // 
+            // txtImpactKey3
+            // 
+            this.txtImpactKey3.Location = new System.Drawing.Point(130, 25);
+            this.txtImpactKey3.Name = "txtImpactKey3";
+            this.txtImpactKey3.Size = new System.Drawing.Size(50, 20);
+            this.txtImpactKey3.TabIndex = 2;
+            this.txtImpactKey3.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtImpactKey3_KeyDown);
+            // 
+            // numImpactDelay
+            // 
+            this.numImpactDelay.Location = new System.Drawing.Point(190, 25);
+            this.numImpactDelay.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.numImpactDelay.Name = "numImpactDelay";
+            this.numImpactDelay.Size = new System.Drawing.Size(50, 20);
+            this.numImpactDelay.TabIndex = 3;
+            this.numImpactDelay.Value = new decimal(new int[] {
+            200,
+            0,
+            0,
+            0});
             // 
             // groupBox3
             // 
@@ -954,7 +1023,7 @@ namespace _4RTools.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(45)))), ((int)(((byte)(49)))));
-            this.ClientSize = new System.Drawing.Size(560, 270);
+            this.ClientSize = new System.Drawing.Size(551, 392);
             this.Controls.Add(this.chkNum9);
             this.Controls.Add(this.chkNum8);
             this.Controls.Add(this.chkNum7);
@@ -1026,6 +1095,9 @@ namespace _4RTools.Forms
             this.groupAhkConfig.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbUpAndDownArrow)).EndInit();
+            this.groupImpactSwitch.ResumeLayout(false);
+            this.groupImpactSwitch.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numImpactDelay)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
@@ -1091,6 +1163,14 @@ namespace _4RTools.Forms
         private System.Windows.Forms.CheckBox cbWithClick;
         private System.Windows.Forms.RadioButton ahkSpeedBoost;
         private System.Windows.Forms.PictureBox pbUpAndDownArrow;
+
+        // GroupBox e controles do Impacto Explosivo
+        private System.Windows.Forms.GroupBox groupImpactSwitch;
+        private System.Windows.Forms.TextBox txtImpactKey1;
+        private System.Windows.Forms.TextBox txtImpactKey2;
+        private System.Windows.Forms.TextBox txtImpactKey3;
+        private System.Windows.Forms.NumericUpDown numImpactDelay;
+
         private CheckBox chkNoShift;
         private CheckBox chkMouseFlick;
         private PictureBox pictureBox1;

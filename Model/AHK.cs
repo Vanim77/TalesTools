@@ -104,9 +104,7 @@ namespace _4RTools.Model
 
         private void _AHKCompatibility(Client roClient, KeyConfig config, Keys thisk)
         {
-            Func<int, int> send_click;
-
-            send_click = (evt) =>
+            Func<int, int> send_click = (evt) =>
             {
                 Interop.PostMessage(roClient.process.MainWindowHandle, Constants.WM_LBUTTONDOWN, 0, 0);
                 Thread.Sleep(1);
@@ -114,39 +112,66 @@ namespace _4RTools.Model
                 return 0;
             };
 
-            if (this.mouseFlick)
+            bool ammo = false;
+
+            var profile = ProfileSingleton.GetCurrent().UserPreferences;
+
+            while (Keyboard.IsKeyDown(config.key))
             {
-                bool ammo = false;
-                while (Keyboard.IsKeyDown(config.key))
+                if (!hasBuff(roClient, EffectStatusIDs.ANTI_BOT) && validateOpenChat(roClient))
                 {
-                    if (!hasBuff(roClient, EffectStatusIDs.ANTI_BOT) && validateOpenChat(roClient))
+                    getOffRein(roClient);
+                    autoSwitchAmmo(roClient, ref ammo);
+
+                    // ==== Impacto Explosivo ====
+                    bool hasImpactBuff = hasBuff(roClient, EffectStatusIDs.MAGNUM);
+                    if (!hasImpactBuff)
                     {
-                        getOffRein(roClient);
-                        autoSwitchAmmo(roClient, ref ammo);
-                        Interop.PostMessage(roClient.process.MainWindowHandle, Constants.WM_KEYDOWN_MSG_ID, thisk, 0);
-                        System.Windows.Forms.Cursor.Position = new Point(System.Windows.Forms.Cursor.Position.X - Constants.MOUSE_DIAGONAL_MOVIMENTATION_PIXELS_AHK, System.Windows.Forms.Cursor.Position.Y - Constants.MOUSE_DIAGONAL_MOVIMENTATION_PIXELS_AHK);
-                        send_click(0);
-                        System.Windows.Forms.Cursor.Position = new Point(System.Windows.Forms.Cursor.Position.X + Constants.MOUSE_DIAGONAL_MOVIMENTATION_PIXELS_AHK, System.Windows.Forms.Cursor.Position.Y + Constants.MOUSE_DIAGONAL_MOVIMENTATION_PIXELS_AHK);
-                        Thread.Sleep(this.AhkDelay);
+                        // 1️⃣ Equipar item que habilita Impacto
+                        Interop.PostMessage(roClient.process.MainWindowHandle, Constants.WM_KEYDOWN_MSG_ID,
+                            toKeys(profile.ImpactItemKey), 0);
+                        Thread.Sleep(profile.ImpactDelay);
+
+                        // 2️⃣ Usar skill Impacto Explosivo
+                        Interop.PostMessage(roClient.process.MainWindowHandle, Constants.WM_KEYDOWN_MSG_ID,
+                            toKeys(profile.ImpactSkillKey), 0);
+                        Thread.Sleep(profile.ImpactDelay);
+
+                        // 3️⃣ Voltar ao item padrão
+                        Interop.PostMessage(roClient.process.MainWindowHandle, Constants.WM_KEYDOWN_MSG_ID,
+                            toKeys(profile.ImpactDefaultKey), 0);
+                        Thread.Sleep(profile.ImpactDelay);
                     }
-                }
-            }
-            else
-            {
-                bool ammo = false;
-                while (Keyboard.IsKeyDown(config.key))
-                {
-                    if (!hasBuff(roClient, EffectStatusIDs.ANTI_BOT) && validateOpenChat(roClient))
+                    // ============================
+
+                    // Tecla normal do spammer
+                    Interop.PostMessage(roClient.process.MainWindowHandle, Constants.WM_KEYDOWN_MSG_ID, thisk, 0);
+
+                    // Mouse flick se estiver ativo
+                    if (this.mouseFlick)
                     {
-                        getOffRein(roClient);
-                        autoSwitchAmmo(roClient, ref ammo);
-                        Interop.PostMessage(roClient.process.MainWindowHandle, Constants.WM_KEYDOWN_MSG_ID, thisk, 0);
+                        System.Windows.Forms.Cursor.Position = new Point(
+                            System.Windows.Forms.Cursor.Position.X - Constants.MOUSE_DIAGONAL_MOVIMENTATION_PIXELS_AHK,
+                            System.Windows.Forms.Cursor.Position.Y - Constants.MOUSE_DIAGONAL_MOVIMENTATION_PIXELS_AHK
+                        );
                         send_click(0);
-                        Thread.Sleep(this.AhkDelay);
+                        System.Windows.Forms.Cursor.Position = new Point(
+                            System.Windows.Forms.Cursor.Position.X + Constants.MOUSE_DIAGONAL_MOVIMENTATION_PIXELS_AHK,
+                            System.Windows.Forms.Cursor.Position.Y + Constants.MOUSE_DIAGONAL_MOVIMENTATION_PIXELS_AHK
+                        );
                     }
+                    else
+                    {
+                        send_click(0);
+                    }
+
+                    Thread.Sleep(this.AhkDelay);
                 }
             }
         }
+
+
+
 
         private void _AHKSynchronous(Client roClient, KeyConfig config, Keys thisk)
         {
@@ -273,14 +298,40 @@ namespace _4RTools.Model
         private void _AHKNoClick(Client roClient, KeyConfig config, Keys thisk)
         {
             bool ammo = false;
+            var prefs = ProfileSingleton.GetCurrent().UserPreferences;
+
             while (Keyboard.IsKeyDown(config.key))
             {
                 if (!hasBuff(roClient, EffectStatusIDs.ANTI_BOT) && validateOpenChat(roClient))
                 {
                     getOffRein(roClient);
                     autoSwitchAmmo(roClient, ref ammo);
+
+                    // ==== Impacto Explosivo ====
+                    bool hasImpactBuff = hasBuff(roClient, EffectStatusIDs.MAGNUM);
+                    if (!hasImpactBuff)
+                    {
+                        if (prefs.ImpactItemKey != Key.None)
+                        {
+                            Interop.PostMessage(roClient.process.MainWindowHandle, Constants.WM_KEYDOWN_MSG_ID, toKeys(prefs.ImpactItemKey), 0);
+                            Thread.Sleep(prefs.ImpactDelay);
+                        }
+
+                        if (prefs.ImpactSkillKey != Key.None)
+                        {
+                            Interop.PostMessage(roClient.process.MainWindowHandle, Constants.WM_KEYDOWN_MSG_ID, toKeys(prefs.ImpactSkillKey), 0);
+                            Thread.Sleep(prefs.ImpactDelay);
+                        }
+
+                        if (prefs.ImpactDefaultKey != Key.None)
+                        {
+                            Interop.PostMessage(roClient.process.MainWindowHandle, Constants.WM_KEYDOWN_MSG_ID, toKeys(prefs.ImpactDefaultKey), 0);
+                            Thread.Sleep(prefs.ImpactDelay);
+                        }
+                    }
                     Interop.PostMessage(roClient.process.MainWindowHandle, Constants.WM_KEYDOWN_MSG_ID, thisk, 0);
                 }
+
                 Thread.Sleep(this.AhkDelay);
             }
         }

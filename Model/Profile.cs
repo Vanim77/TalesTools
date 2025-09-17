@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using _4RTools.Forms;
 using _4RTools.Utils;
-using _4RTools.Forms;
-using System.IO;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Windows.Input;
 
 namespace _4RTools.Model
 {
@@ -21,6 +22,7 @@ namespace _4RTools.Model
                 if ((rawObject != null))
                 {   
                     profile.Name = profileName;
+                    var up = profile.UserPreferences;
                     profile.UserPreferences = JsonConvert.DeserializeObject<UserPreferences>(Profile.GetByAction(rawObject, profile.UserPreferences));
                     profile.AHK = JsonConvert.DeserializeObject<AHK>(Profile.GetByAction(rawObject, profile.AHK));
                     profile.Autopot = JsonConvert.DeserializeObject<Autopot>(Profile.GetByAction(rawObject, profile.Autopot));

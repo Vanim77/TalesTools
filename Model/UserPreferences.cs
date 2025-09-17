@@ -24,6 +24,13 @@ namespace _4RTools.Model
         public Key ammo1Key { get; set; }
         public Key ammo2Key { get; set; }
 
+        // Impacto Explosivo Feature
+        public Key ImpactItemKey { get; set; }      // tecla para equipar item que ativa o impacto
+        public Key ImpactSkillKey { get; set; }     // tecla para usar o impacto
+        public Key ImpactDefaultKey { get; set; }   // tecla para voltar ao item normal
+        public int ImpactDelay { get; set; }        // delay entre as teclas
+
+
         public bool stopSpammersBot { get; set; } = false;
 
         public UserPreferences()
